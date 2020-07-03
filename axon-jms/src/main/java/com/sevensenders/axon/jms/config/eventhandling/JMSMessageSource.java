@@ -29,15 +29,9 @@ public class JMSMessageSource implements SubscribableMessageSource<EventMessage<
     }
 
     public void receiveMessage(final Message message) {
-      /*  message.getHeaders().forEach((k,v) -> System.out.println(k+ " "+ v));
-        System.out.println(message.getPayload());
-        System.out.println(message.getPayload().getClass());*/
-        if(!eventProcessors.isEmpty()) {
-            //for (Consumer<List<? extends EventMessage<?>>> eventProcessor : eventProcessors) {
-                axonMessageConverter.readMessage((JMSMessage) message.getPayload())
-                        .ifPresent(event -> eventProcessors.forEach(ep -> ep.accept(Collections.singletonList(event))));
-              //  eventProcessor.accept(Collections.singletonList((GenericDomainEventMessage<?>)message.getPayload()));
-            //}
+        if (!eventProcessors.isEmpty()) {
+            axonMessageConverter.readMessage((JMSMessage) message.getPayload())
+                    .ifPresent(event -> eventProcessors.forEach(ep -> ep.accept(Collections.singletonList(event))));
         }
     }
 

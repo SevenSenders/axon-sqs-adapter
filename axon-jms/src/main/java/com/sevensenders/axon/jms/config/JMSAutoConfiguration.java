@@ -44,21 +44,4 @@ public class JMSAutoConfiguration {
         return new AxonMessageConverter(eventSerializer);
     }
 
-    /*@ConditionalOnProperty("axon.jms.eventQueue")
-    @Bean
-    public JMSMessageSource myQueueMessageSource() {
-        return new JMSMessageSource(){
-            @JmsListener(destination = "${axon.jms.eventQueue}")
-            @Override
-            public void receiveMessage(Message message) {
-                super.receiveMessage(message);
-            }
-        };
-    }*/
-
-   /* @Autowired
-    public void configure(EventProcessingConfigurer config, JMSMessageSource myQueueMessageSource) {
-        config.usingSubscribingEventProcessors();
-        config.configureDefaultSubscribableMessageSource(c -> myQueueMessageSource);
-    }*/
 }
