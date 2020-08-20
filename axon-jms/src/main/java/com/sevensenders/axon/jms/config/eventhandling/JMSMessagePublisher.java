@@ -10,6 +10,8 @@ import org.axonframework.messaging.EventPublicationFailedException;
 import org.axonframework.messaging.SubscribableMessageSource;
 import org.springframework.jms.core.JmsTemplate;
 
+
+import java.util.Arrays;
 import java.util.List;
 
 public class JMSMessagePublisher {
@@ -47,7 +49,10 @@ public class JMSMessagePublisher {
     protected void send(List<? extends EventMessage<?>> events) {
         for (EventMessage event : events) {
             try {
-                jmsTemplate.convertAndSend(queueName, axonMessageConverter.createMessage(event));
+                Arrays.stream(queueName.split(","))
+                        .forEach(queue -> {
+                            jmsTemplate.convertAndSend(queue, axonMessageConverter.createMessage(event));});
+
             } catch (Exception e) {
                 throw new EventPublicationFailedException("Error while sending message", e);
             }
